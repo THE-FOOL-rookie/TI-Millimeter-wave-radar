@@ -1,8 +1,8 @@
 import serial
 import time
 import numpy as np
-import pyqtgraph as pg
-from pyqtgraph.Qt import QtGui
+# import pyqtgraph as pg
+# from pyqtgraph.Qt import QtGui
 
 # Change the configuration file name
 configFileName = 'mmw_detect_default.cfg'
@@ -351,19 +351,19 @@ def update():
     dataOk, targetDetected, frameNumber, targetObj, pointObj = readAndParseData16xx(Dataport, configParameters)
     
     if targetDetected:
-        print(targetObj)
+        # print(targetObj)
         print(targetObj["numTargets"])
-        x = -targetObj["posX"]
-        y = targetObj["posY"]
-        s2.setData(x,y)
-        QtGui.QApplication.processEvents()
+        # x = -targetObj["posX"]
+        # y = targetObj["posY"]
+        # s2.setData(x,y)
+        # QtGui.QApplication.processEvents()
         
     if dataOk: 
         x = -pointObj["range"]*np.sin(pointObj["azimuth"])
         y = pointObj["range"]*np.cos(pointObj["azimuth"])
         
-        s1.setData(x,y)
-        QtGui.QApplication.processEvents()
+        # s1.setData(x,y)
+        # QtGui.QApplication.processEvents()
     
     return dataOk
 
@@ -376,19 +376,19 @@ CLIport, Dataport = serialConfig(configFileName)
 # Get the configuration parameters from the configuration file
 configParameters = parseConfigFile(configFileName)
 
-# START QtAPPfor the plot
-app = QtGui.QApplication([])
+# # START QtAPPfor the plot
+# app = QtGui.QApplication([])
 
-# Set the plot 
-pg.setConfigOption('background','w')
-win = pg.GraphicsWindow(title="2D scatter plot")
-p = win.addPlot()
-p.setXRange(-0.5,0.5)
-p.setYRange(0,6)
-p.setLabel('left',text = 'Y position (m)')
-p.setLabel('bottom', text= 'X position (m)')
-s1 = p.plot([],[],pen=None,symbol='o')
-s2 = p.plot([],[],pen=(0,0,255),symbol='star')
+# # Set the plot 
+# pg.setConfigOption('background','w')
+# win = pg.GraphicsWindow(title="2D scatter plot")
+# p = win.addPlot()
+# p.setXRange(-0.5,0.5)
+# p.setYRange(0,6)
+# p.setLabel('left',text = 'Y position (m)')
+# p.setLabel('bottom', text= 'X position (m)')
+# s1 = p.plot([],[],pen=None,symbol='o')
+# s2 = p.plot([],[],pen=(0,0,255),symbol='star')
     
    
 # Main loop 
@@ -413,5 +413,5 @@ while True:
         CLIport.write(('sensorStop\n').encode())
         CLIport.close()
         Dataport.close()
-        win.close()
+        # win.close()
         break
